@@ -23,14 +23,16 @@ load_dotenv(BASE_DIR / '.env')
 # SECURITY
 # ------------------------------------------------------------------------------
 
-DEBUG = os.environ.get('DEBUG', 'False') == 'True'
+IS_PRODUCTION = os.environ.get('RENDER') == 'true' or bool(os.getenv('RENDER_EXTERNAL_HOSTNAME')) or os.environ.get('ENVIRONMENT') == 'production'
+
+DEBUG = os.environ.get('DEBUG', 'False' if IS_PRODUCTION else 'True').lower() in ('true', '1', 'yes')
 
 SECRET_KEY = os.environ.get('SECRET_KEY')
 if not SECRET_KEY:
-    if DEBUG:
+    if not IS_PRODUCTION or DEBUG:
         SECRET_KEY = 'django-insecure-change-this-in-production-dev-only'
     else:
-        raise ImproperlyConfigured("The SECRET_KEY environment variable must be set when DEBUG is False.")
+        raise ImproperlyConfigured("The SECRET_KEY environment variable must be set when DEBUG is False in production.")
 
 
 _env_allowed_hosts = os.environ.get('ALLOWED_HOSTS')

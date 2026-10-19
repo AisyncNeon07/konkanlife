@@ -11,5 +11,9 @@ node_modules/
 .env
 .venv/
 .venv_linux/
+pdf_env/
+.agent/
+.history/
+.lh/
 *.log
 .DS_Store
