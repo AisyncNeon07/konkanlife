@@ -236,11 +236,15 @@ if 'test' in sys.argv:
     }
 elif DATABASE_URL:
     db_ssl_require = os.environ.get('DB_SSL_REQUIRE', '').lower() == 'true' or 'sslmode=require' in DATABASE_URL.lower()
+    default_conn_age = 0 if ('pooler.supabase.com' in DATABASE_URL or not IS_PRODUCTION) else 600
     db_config = dj_database_url.parse(
         DATABASE_URL,
-        conn_max_age=int(os.environ.get('DB_CONN_MAX_AGE', 600)),
+        conn_max_age=int(os.environ.get('DB_CONN_MAX_AGE', default_conn_age)),
         ssl_require=db_ssl_require
     )
+    # When using external connection poolers (like Supabase Supavisor/PgBouncer in transaction mode), disable server-side cursors
+    if 'pooler.supabase.com' in DATABASE_URL or ':6543' in DATABASE_URL:
+        db_config.setdefault('OPTIONS', {})['sslmode'] = 'require'
     db_config['CONN_HEALTH_CHECKS'] = True
     DATABASES = {
         'default': db_config
@@ -402,6 +406,7 @@ ACCOUNT_SIGNUP_REDIRECT_URL = 'home'
 
 # Do NOT auto-link accounts by email — require explicit user action
 SOCIALACCOUNT_EMAIL_AUTHENTICATION_AUTO_CONNECT = False
+SOCIALACCOUNT_AUTO_SIGNUP = True
 ACCOUNT_SIGNUP_FIELDS = ['email', 'username*', 'password1*', 'password2*']
 ACCOUNT_EMAIL_VERIFICATION = 'none'
 SOCIALACCOUNT_STORE_TOKENS = False
