@@ -17,3 +17,5 @@ pdf_env/
 .lh/
 *.log
 .DS_Store
+google_client_id.json
+.venv_wsl/

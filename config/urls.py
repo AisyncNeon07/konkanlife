@@ -35,6 +35,7 @@ urlpatterns = [
     path('spots/', include('spots.urls')),
     path('destinations/', include('destinations.urls')),
     path('accounts/', include('accounts.urls')),
+    path('accounts/', include('allauth.urls')),
     path('food/', include('food.urls')),
     path('users/', include('users.urls')),
 

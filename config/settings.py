@@ -109,12 +109,17 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sites',
 
     # Third-party
     'cloudinary_storage',
     'cloudinary',
     'rest_framework',
     'django_filters',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'allauth.socialaccount.providers.google',
 
     # Local apps
     'core',
@@ -182,6 +187,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+
+    'allauth.account.middleware.AccountMiddleware',
 ]
 
 # ------------------------------------------------------------------------------
@@ -348,14 +355,58 @@ STORAGES = {
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # ------------------------------------------------------------------------------
-# AUTH REDIRECTS
+# AUTHENTICATION BACKENDS
 # ------------------------------------------------------------------------------
 
-LOGIN_REDIRECT_URL = 'home'
+AUTHENTICATION_BACKENDS = [
 
-LOGOUT_REDIRECT_URL = 'login'
+    "django.contrib.auth.backends.ModelBackend",
+    "allauth.account.auth_backends.AuthenticationBackend",
+    
+]
 
+# ------------------------------------------------------------------------------
+# DJANGO SITES FRAMEWORK (Required by allauth)
+# ------------------------------------------------------------------------------
+
+SITE_ID = 1
+
+# ------------------------------------------------------------------------------
+# ALLAUTH CONFIGURATION
+# ------------------------------------------------------------------------------
+
+# Use environment variables for Google OAuth credentials — never hardcode.
+SOCIALACCOUNT_PROVIDERS = {
+    'google': {
+        'APP': {
+            'client_id': os.environ.get('GOOGLE_CLIENT_ID', ''),
+            'secret': os.environ.get('GOOGLE_CLIENT_SECRET', ''),
+        },
+        'SCOPE': [
+            'profile',
+            'email',
+        ],
+        'AUTH_PARAMS': {
+            'access_type': 'online',
+        },
+    },
+}
+
+# Redirect to the project's own login page (handled by accounts app)
 LOGIN_URL = 'login'
+ACCOUNT_LOGIN_URL = 'login'
+LOGIN_REDIRECT_URL = 'home'
+LOGOUT_REDIRECT_URL = 'login'
+ACCOUNT_LOGOUT_REDIRECT_URL = 'login'
+ACCOUNT_SIGNUP_REDIRECT_URL = 'home'
+
+# Do NOT auto-link accounts by email — require explicit user action
+SOCIALACCOUNT_EMAIL_AUTHENTICATION_AUTO_CONNECT = False
+ACCOUNT_SIGNUP_FIELDS = ['email', 'username*', 'password1*', 'password2*']
+ACCOUNT_EMAIL_VERIFICATION = 'none'
+SOCIALACCOUNT_STORE_TOKENS = False
+SOCIALACCOUNT_LOGIN_ON_GET = True
+
 # ------------------------------------------------------------------------------
 # CACHING (In-Memory Fast Cache for Static Datasets & Telemetry)
 # ------------------------------------------------------------------------------

@@ -1,4 +1,5 @@
 {% load static %}
+{% load socialaccount %}
 <!-- ========================================== -->
 <!-- 2026 FLOATING LIGHT COASTAL NAVIGATION    -->
 <!-- ========================================== -->
@@ -150,89 +151,120 @@
 </header>
 
 <!-- Mobile Drawer Modal (Light Mode) -->
-<div id="mobile-drawer" class="hidden fixed inset-0 z-50 lg:hidden bg-white/95 backdrop-blur-2xl">
-    <div class="p-6 flex flex-col h-full justify-between">
-        <div>
-            <div class="flex items-center justify-between pb-6 border-b border-slate-200">
-                <a href="{% url 'home' %}" class="flex items-center gap-2.5">
-                    <span class="w-9 h-9 rounded-xl bg-gradient-to-br from-ocean-mid to-ocean-light flex items-center justify-center text-white font-black text-lg">K</span>
-                    <span class="font-display font-black text-xl text-slate-900">KONKAN<span class="text-ocean-mid">.</span></span>
-                </a>
-                <button type="button" onclick="document.getElementById('mobile-drawer').classList.add('hidden');" class="p-2 rounded-full bg-slate-100 text-slate-700 hover:bg-slate-200" aria-label="Close menu">
-                    <i class="fas fa-times text-lg"></i>
-                </button>
-            </div>
-            
-            <!-- Mobile Links -->
-            <div class="py-4 space-y-1.5 overflow-y-auto max-h-[calc(100vh-220px)]">
-                <a href="{% url 'companion_home' %}" onclick="document.getElementById('mobile-drawer').classList.add('hidden');" class="flex items-center gap-3 px-4 py-3 rounded-2xl text-slate-800 hover:bg-slate-100 font-bold text-sm">
-                    <i class="fas fa-compass text-ocean-mid w-5"></i> Companion Dashboard
-                </a>
-                <a href="{% url 'itinerary_list' %}" onclick="document.getElementById('mobile-drawer').classList.add('hidden');" class="flex items-center gap-3 px-4 py-3 rounded-2xl text-slate-800 hover:bg-slate-100 font-bold text-sm">
-                    <i class="fas fa-route text-ocean-mid w-5"></i> Curated Itineraries
-                </a>
-                <a href="{% url 'near_me' %}" onclick="document.getElementById('mobile-drawer').classList.add('hidden');" class="flex items-center gap-3 px-4 py-3 rounded-2xl text-slate-800 hover:bg-slate-100 font-bold text-sm">
-                    <i class="fas fa-location-arrow text-ocean-mid w-5"></i> Near Me Radar
-                </a>
-                <a href="{% url 'my_trip' %}" onclick="document.getElementById('mobile-drawer').classList.add('hidden');" class="flex items-center gap-3 px-4 py-3 rounded-2xl text-slate-800 hover:bg-slate-100 font-bold text-sm">
-                    <i class="fas fa-suitcase-rolling text-ocean-mid w-5"></i> My Custom Trip
-                </a>
-                <a href="{% url 'emergency_hub' %}" onclick="document.getElementById('mobile-drawer').classList.add('hidden');" class="flex items-center gap-3 px-4 py-3 rounded-2xl text-rose-700 bg-rose-50 hover:bg-rose-100 font-bold text-sm border border-rose-200/60">
-                    <i class="fas fa-phone-volume text-rose-600 w-5"></i> 1-Click SOS Safety Hub
-                </a>
+<div id="mobile-drawer" class="hidden fixed inset-0 z-50 lg:hidden bg-white/98 backdrop-blur-2xl">
+    <div class="p-5 sm:p-6 flex flex-col h-full max-w-lg mx-auto">
+        <!-- Drawer Header -->
+        <div class="flex items-center justify-between pb-4 border-b border-slate-200/80 flex-shrink-0">
+            <a href="{% url 'home' %}" onclick="document.getElementById('mobile-drawer').classList.add('hidden');" class="flex items-center gap-2.5">
+                <span class="w-9 h-9 rounded-xl bg-gradient-to-br from-ocean-mid to-ocean-light flex items-center justify-center text-white font-black text-lg shadow-xs">K</span>
+                <span class="font-display font-black text-xl text-slate-900">KONKAN<span class="text-ocean-mid">.</span></span>
+            </a>
+            <button type="button" onclick="document.getElementById('mobile-drawer').classList.add('hidden');" class="w-9 h-9 flex items-center justify-center rounded-full bg-slate-100 text-slate-700 hover:bg-slate-200 active:scale-95 transition-all" aria-label="Close menu">
+                <i class="fas fa-times text-base"></i>
+            </button>
+        </div>
+        
+        <!-- Mobile Links (Scrollable area) -->
+        <div class="py-3 space-y-1.5 flex-1 overflow-y-auto overscroll-contain pr-1">
+            <a href="{% url 'companion_home' %}" onclick="document.getElementById('mobile-drawer').classList.add('hidden');" class="flex items-center gap-3 px-4 py-3 rounded-2xl text-slate-800 hover:bg-slate-100 font-bold text-sm transition-colors">
+                <i class="fas fa-compass text-ocean-mid w-5"></i> Companion Dashboard
+            </a>
+            <a href="{% url 'itinerary_list' %}" onclick="document.getElementById('mobile-drawer').classList.add('hidden');" class="flex items-center gap-3 px-4 py-3 rounded-2xl text-slate-800 hover:bg-slate-100 font-bold text-sm transition-colors">
+                <i class="fas fa-route text-ocean-mid w-5"></i> Curated Itineraries
+            </a>
+            <a href="{% url 'near_me' %}" onclick="document.getElementById('mobile-drawer').classList.add('hidden');" class="flex items-center gap-3 px-4 py-3 rounded-2xl text-slate-800 hover:bg-slate-100 font-bold text-sm transition-colors">
+                <i class="fas fa-location-arrow text-ocean-mid w-5"></i> Near Me Radar
+            </a>
+            <a href="{% url 'my_trip' %}" onclick="document.getElementById('mobile-drawer').classList.add('hidden');" class="flex items-center gap-3 px-4 py-3 rounded-2xl text-slate-800 hover:bg-slate-100 font-bold text-sm transition-colors">
+                <i class="fas fa-suitcase-rolling text-ocean-mid w-5"></i> My Custom Trip
+            </a>
+            <a href="{% url 'emergency_hub' %}" onclick="document.getElementById('mobile-drawer').classList.add('hidden');" class="flex items-center gap-3 px-4 py-3 rounded-2xl text-rose-700 bg-rose-50 hover:bg-rose-100 font-bold text-sm border border-rose-200/60 transition-colors">
+                <i class="fas fa-phone-volume text-rose-600 w-5"></i> 1-Click SOS Safety Hub
+            </a>
 
+            <div class="border-t border-slate-100 my-2 pt-2"></div>
+            <span class="px-4 text-[10px] uppercase font-bold tracking-wider text-slate-400">Explore Ratnagiri</span>
+
+            <a href="{% url 'destination_list' %}" onclick="document.getElementById('mobile-drawer').classList.add('hidden');" class="flex items-center gap-3 px-4 py-2.5 rounded-2xl text-slate-700 hover:bg-slate-100 font-semibold text-sm transition-colors">
+                <i class="fas fa-map-location-dot text-slate-500 w-5"></i> All Destinations
+            </a>
+            <a href="{% url 'food_trail' %}" onclick="document.getElementById('mobile-drawer').classList.add('hidden');" class="flex items-center gap-3 px-4 py-2.5 rounded-2xl text-slate-700 hover:bg-slate-100 font-semibold text-sm transition-colors">
+                <i class="fas fa-utensils text-sand-coral w-5"></i> Konkani Food Trail
+            </a>
+            <a href="{% url 'home_spots' %}" onclick="document.getElementById('mobile-drawer').classList.add('hidden');" class="flex items-center gap-3 px-4 py-2.5 rounded-2xl text-slate-700 hover:bg-slate-100 font-semibold text-sm transition-colors">
+                <i class="fas fa-compass text-sand-gold w-5"></i> Hidden Spots
+            </a>
+            <a href="{% url 'partner_directory' %}" onclick="document.getElementById('mobile-drawer').classList.add('hidden');" class="flex items-center gap-3 px-4 py-2.5 rounded-2xl text-slate-700 hover:bg-slate-100 font-semibold text-sm transition-colors">
+                <i class="fas fa-handshake-angle text-indigo-500 w-5"></i> Verified Partners
+            </a>
+
+            {% if user.is_staff %}
                 <div class="border-t border-slate-100 my-2 pt-2"></div>
-                <span class="px-4 text-[10px] uppercase font-bold tracking-wider text-slate-400">Explore Ratnagiri</span>
-
-                <a href="{% url 'destination_list' %}" onclick="document.getElementById('mobile-drawer').classList.add('hidden');" class="flex items-center gap-3 px-4 py-2.5 rounded-2xl text-slate-700 hover:bg-slate-100 font-semibold text-sm">
-                    <i class="fas fa-map-location-dot text-slate-500 w-5"></i> All Destinations
+                <span class="px-4 text-[10px] uppercase font-bold tracking-wider text-amber-700">Staff Portal</span>
+                <a href="/admin/" target="_blank" class="flex items-center gap-3 px-4 py-2.5 rounded-2xl text-amber-800 bg-amber-50 hover:bg-amber-100 font-bold text-sm">
+                    <i class="fas fa-shield-halved text-amber-600 w-5"></i> Django Admin Portal
                 </a>
-                <a href="{% url 'food_trail' %}" onclick="document.getElementById('mobile-drawer').classList.add('hidden');" class="flex items-center gap-3 px-4 py-2.5 rounded-2xl text-slate-700 hover:bg-slate-100 font-semibold text-sm">
-                    <i class="fas fa-utensils text-sand-coral w-5"></i> Konkani Food Trail
+                <a href="{% url 'ops_dashboard' %}" class="flex items-center gap-3 px-4 py-2.5 rounded-2xl text-slate-900 bg-slate-100 hover:bg-slate-200 font-bold text-sm">
+                    <i class="fas fa-gauge-high text-ocean-mid w-5"></i> Operations Hub & CMS
                 </a>
-                <a href="{% url 'home_spots' %}" onclick="document.getElementById('mobile-drawer').classList.add('hidden');" class="flex items-center gap-3 px-4 py-2.5 rounded-2xl text-slate-700 hover:bg-slate-100 font-semibold text-sm">
-                    <i class="fas fa-compass text-sand-gold w-5"></i> Hidden Spots
-                </a>
-                <a href="{% url 'partner_directory' %}" onclick="document.getElementById('mobile-drawer').classList.add('hidden');" class="flex items-center gap-3 px-4 py-2.5 rounded-2xl text-slate-700 hover:bg-slate-100 font-semibold text-sm">
-                    <i class="fas fa-handshake-angle text-indigo-500 w-5"></i> Verified Partners
-                </a>
-
-                {% if user.is_staff %}
-                    <div class="border-t border-slate-100 my-2 pt-2"></div>
-                    <span class="px-4 text-[10px] uppercase font-bold tracking-wider text-amber-700">Staff Portal</span>
-                    <a href="/admin/" target="_blank" class="flex items-center gap-3 px-4 py-2.5 rounded-2xl text-amber-800 bg-amber-50 hover:bg-amber-100 font-bold text-sm">
-                        <i class="fas fa-shield-halved text-amber-600 w-5"></i> Django Admin Portal
-                    </a>
-                    <a href="{% url 'ops_dashboard' %}" class="flex items-center gap-3 px-4 py-2.5 rounded-2xl text-slate-900 bg-slate-100 hover:bg-slate-200 font-bold text-sm">
-                        <i class="fas fa-gauge-high text-ocean-mid w-5"></i> Operations Hub & CMS
-                    </a>
-                {% endif %}
-            </div>
+            {% endif %}
         </div>
 
-        <div class="pt-6 border-t border-slate-200 space-y-3">
+        <!-- Drawer Auth & Actions Section (Sticky at bottom, safe area padded) -->
+        <div class="pt-4 border-t border-slate-200/90 flex-shrink-0 space-y-2.5 pb-[max(0.75rem,env(safe-area-inset-bottom))]">
             {% if user.is_authenticated %}
-                <div class="flex items-center gap-3 px-4 py-3 bg-slate-100 rounded-2xl mb-2">
-                    <div class="w-10 h-10 rounded-full bg-ocean-mid flex items-center justify-center text-white font-bold">
+                <div class="flex items-center gap-3 px-4 py-3 bg-slate-50 border border-slate-200/70 rounded-2xl">
+                    <div class="w-10 h-10 rounded-full bg-ocean-mid flex items-center justify-center text-white font-bold shadow-xs">
                         {{ user.username|make_list|first|upper }}
                     </div>
-                    <div>
-                        <p class="text-sm font-bold text-slate-900">{{ user.username }}</p>
-                        <a href="{% url 'my_profile' %}" class="text-xs text-ocean-mid font-semibold">View Profile</a>
+                    <div class="min-w-0 flex-1">
+                        <p class="text-sm font-bold text-slate-900 truncate">{{ user.username }}</p>
+                        <a href="{% url 'my_profile' %}" onclick="document.getElementById('mobile-drawer').classList.add('hidden');" class="text-xs text-ocean-mid font-semibold hover:underline">View Profile</a>
                     </div>
                 </div>
                 <div class="grid grid-cols-3 gap-2">
-                    <a href="{% url 'create_destination' %}" class="p-3 bg-slate-100 hover:bg-slate-200 rounded-xl text-center text-xs font-bold text-slate-800"><i class="fas fa-map-pin text-ocean-mid block mb-1"></i> Destination</a>
-                    <a href="{% url 'create_spot' %}" class="p-3 bg-slate-100 hover:bg-slate-200 rounded-xl text-center text-xs font-bold text-slate-800"><i class="fas fa-compass text-sand-gold block mb-1"></i> Spot</a>
-                    <a href="{% url 'create_food' %}" class="p-3 bg-slate-100 hover:bg-slate-200 rounded-xl text-center text-xs font-bold text-slate-800"><i class="fas fa-utensils text-sand-coral block mb-1"></i> Food</a>
+                    <a href="{% url 'create_destination' %}" onclick="document.getElementById('mobile-drawer').classList.add('hidden');" class="p-2.5 bg-slate-100 hover:bg-slate-200 rounded-xl text-center text-xs font-bold text-slate-800 transition-all"><i class="fas fa-map-pin text-ocean-mid block mb-1"></i> Destination</a>
+                    <a href="{% url 'create_spot' %}" onclick="document.getElementById('mobile-drawer').classList.add('hidden');" class="p-2.5 bg-slate-100 hover:bg-slate-200 rounded-xl text-center text-xs font-bold text-slate-800 transition-all"><i class="fas fa-compass text-sand-gold block mb-1"></i> Spot</a>
+                    <a href="{% url 'create_food' %}" onclick="document.getElementById('mobile-drawer').classList.add('hidden');" class="p-2.5 bg-slate-100 hover:bg-slate-200 rounded-xl text-center text-xs font-bold text-slate-800 transition-all"><i class="fas fa-utensils text-sand-coral block mb-1"></i> Food</a>
                 </div>
                 <form action="{% url 'logout' %}" method="post" class="m-0">
                     {% csrf_token %}
-                    <button type="submit" class="w-full py-3 rounded-xl bg-red-50 text-red-600 font-bold text-sm border border-red-200">Sign Out</button>
+                    <button type="submit" class="w-full py-2.5 rounded-xl bg-red-50 hover:bg-red-100 active:scale-[0.99] text-red-600 font-bold text-xs border border-red-200/80 transition-all">Sign Out</button>
                 </form>
             {% else %}
-                <a href="{% url 'login' %}" class="block w-full py-3.5 text-center rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-800 font-bold text-sm">Sign In</a>
-                <a href="{% url 'register' %}" class="block w-full py-3.5 text-center rounded-xl bg-ocean-mid text-white font-bold text-sm shadow-sm">Create Account</a>
+                {% get_providers as socialaccount_providers %}
+                {% if socialaccount_providers %}
+                    <!-- Continue with Google Button -->
+                    <a href="{% provider_login_url 'google' %}" 
+                       class="w-full flex items-center justify-center gap-3 py-3 px-4 rounded-xl border border-slate-200 bg-white hover:bg-slate-50 active:scale-[0.99] text-slate-700 font-bold text-sm transition-all shadow-xs"
+                       id="mobile-drawer-google-btn">
+                        <svg class="w-4 h-4 flex-shrink-0" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 01-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1z" fill="#4285F4"/>
+                            <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
+                            <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/>
+                            <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
+                        </svg>
+                        <span>Continue with Google</span>
+                    </a>
+
+                    <div class="relative my-1">
+                        <div class="absolute inset-0 flex items-center">
+                            <div class="w-full border-t border-slate-200"></div>
+                        </div>
+                        <div class="relative flex justify-center text-[10px] uppercase font-bold tracking-wider">
+                            <span class="bg-white px-2 text-slate-400">or continue with email</span>
+                        </div>
+                    </div>
+                {% endif %}
+
+                <div class="grid grid-cols-2 gap-2">
+                    <a href="{% url 'login' %}" onclick="document.getElementById('mobile-drawer').classList.add('hidden');" class="w-full py-2.5 text-center rounded-xl bg-slate-100 hover:bg-slate-200 active:scale-[0.99] text-slate-800 font-bold text-xs transition-all">
+                        Sign In
+                    </a>
+                    <a href="{% url 'register' %}" onclick="document.getElementById('mobile-drawer').classList.add('hidden');" class="w-full py-2.5 text-center rounded-xl bg-ocean-mid hover:bg-ocean-deep active:scale-[0.99] text-white font-bold text-xs shadow-xs transition-all">
+                        Create Account
+                    </a>
+                </div>
             {% endif %}
         </div>
     </div>
