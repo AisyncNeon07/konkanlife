@@ -19,3 +19,5 @@ pdf_env/
 .DS_Store
 google_client_id.json
 .venv_wsl/
+.venv-wsl/
+.venv*/
