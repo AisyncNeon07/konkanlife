@@ -53,6 +53,7 @@ else:
         '.onrender.com',
         'localhost',
         '127.0.0.1',
+        '.trycloudflare.com',
     ]
 
 if os.getenv('RENDER_EXTERNAL_HOSTNAME'):
@@ -69,6 +70,7 @@ else:
         'https://*.onrender.com',
         'http://localhost',
         'http://127.0.0.1',
+        'https://*.trycloudflare.com',
     ]
 
 if os.getenv('RENDER_EXTERNAL_HOSTNAME'):
